@@ -28,6 +28,11 @@ func main() {
 
 	p := marv.NewParser()
 
-	fmt.Printf("%$v\n", p)
+	smts, err := p.Parse(lines)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%#v\n", smts)
 
 }
