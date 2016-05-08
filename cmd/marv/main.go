@@ -1,12 +1,12 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/Primer42/marv"
 )
 
 func main() {
@@ -19,25 +19,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	lines, err := preprocess(fileBytes)
+	lines, err := marv.Preprocess(fileBytes)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Printf("%#v\n", lines)
 
-}
+	p := marv.NewParser()
 
-func preprocess(dirty []byte) (clean []string, err error) {
-	scanner := bufio.NewScanner(bytes.NewBuffer(dirty))
-
-	for scanner.Scan() {
-		s := scanner.Text()
-		if len(s) > 0 {
-			clean = append(clean, scanner.Text())
-		}
+	smts, err := p.Parse(lines)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	return
+	fmt.Printf("%#v\n", smts)
 
 }
